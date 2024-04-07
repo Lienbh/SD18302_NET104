@@ -19,7 +19,9 @@ namespace App_MVC.Controllers
         DbSet<GioHang> _gh;
         DbSet<GioHangCT> _ghct;
 
-
+        /// <summary>
+        /// lien thay doi
+        /// </summary>
 
         public GioHangController()
         {
@@ -62,6 +64,8 @@ namespace App_MVC.Controllers
                     }
                 }
                 
+
+
 
                 return View(lstgioHangCTDTO);
 
