@@ -1,0 +1,42 @@
+﻿@model IEnumerable<GioHangCTDTO>
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>Giỏ Hàng</h1>
+
+ <div class="container-fluid">
+                <div class="row">
+        @foreach (var item in Model)
+        {
+                            <div class="col-4">
+                                <div class="border mb-4">
+                                    <div class="p-2">
+                                            <h5 class="text-center">  @Html.DisplayFor(modelItem => item.ProductName)</h5>
+                                        <br>
+                                        <div class="bg-light d-flex justify-content-center align-items-center"
+                                    style="height: 300px;">
+                                                     
+                                        </div>
+                                        <div class="d-flex justify-content-center">
+
+                                                <span class="fw-bold">@Html.DisplayFor(modelItem => item.Price) VNĐ</span>
+
+                                        </div>
+                                             <div>
+                                                    <span class="fw-bold">Số lượng: @Html.DisplayFor(modelItem => item.Quantity)</span>
+                                                        </div>
+                                    </div>
+
+                                 @using (Html.BeginForm("ThanhToan", "GioHang", new { Id = @item.Id }, FormMethod.Post))
+                                {
+                                     <button type="submit" 
+                                    class="btn btn-dark rounded-bottom-4 w-100 btn-sm">Thanh toán</button>
+                               }
+
+                                </div>
+                            </div>
+        }
+                </div>
+            </div>

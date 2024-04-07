@@ -1,0 +1,116 @@
+﻿@model IEnumerable<App_Data_ClassLib.Models.SanPham>
+
+@{
+    ViewData["Title"] = "Home Page";
+    var loginData = TempData["Login"];
+}
+
+<div class="container-fluid" >
+    <div class="row ">
+        <div class="col-12"></div>
+        <div class="col-5  ">
+            <div class="card mt-4 ">
+                <div class="card-header">
+                    <h3 class="text-sm-center">TOP SÁCH BÁN CHẠY NHẤT</h3>
+                </div>
+                <div class="card-body">
+
+                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                                class="active" aria-current="true" aria-label="Slide 1"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                                aria-label="Slide 2"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                                aria-label="Slide 3"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+                                aria-label="Slide 4"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"
+                                aria-label="Slide 5"></button>
+                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5"
+                                aria-label="Slide 6"></button>
+
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="//bizweb.dktcdn.net/thumb/large/100/363/455/products/phiasaunghicanxnew01-80ba1d6b-9ecf-4695-9dc2-9f7c3d832433.jpg?v=1706084187177" class="d-block w-100" alt="..."
+                                    height="650px">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="//bizweb.dktcdn.net/thumb/large/100/363/455/products/bat-tre-dong-xanh-14x20-5.jpg?v=1708501310437" class="d-block w-100"
+                                    alt="..." height="650px">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="//bizweb.dktcdn.net/thumb/large/100/363/455/products/luudayvavuongquoce170416388621.jpg?v=1705552507753" class="d-block w-100"
+                                    alt="..." height="650px">
+                            </div>
+                            <div class="carousel-item">
+                                <img src="https://bizweb.dktcdn.net/thumb/large/100/363/455/products/noi-co-don-cua-cac-so-nguyen-to-01.jpg?v=1703043127650" class="d-block w-100"
+                                    alt="..." height="650px">
+                            </div>
+
+                        </div>
+                        <button class="carousel-control-prev" type="button"
+                            data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button"
+                            data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <!-- <h3 class="text-sm-center">TOP SÁCH BÁN CHẠY NHẤT</h3> -->
+                    <h5>LANGTIEU - Bởi vì sách là thế giới</h5>
+                    LANGTIEU, tên đầy đủ là Công ty Cổ phần Văn hóa và Truyền thông LANGTIEU. Ngay từ cuốn sách đầu
+                    tiên, độc giả đã dành sự quan tâm và yêu
+                    mến cho một thương hiệu sách mới mẻ mang trong mình khát vọng góp phần tạo lập diện mạo mới cho
+                    xuất bản văn học tại Việt Nam.
+                </div>
+            </div>
+        </div>
+        <div class="col-7 d-flex mt-4">
+            <div class="container-fluid">
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-4">
+                            <div class="border mb-4">
+                                <div class="p-2">
+                                        <h5 class="text-center">  @Html.DisplayFor(modelItem => item.ProductName)</h5>
+                                    <br>
+                                    <div class="bg-light d-flex justify-content-center align-items-center"
+                                    style="height: 300px;">
+                                                    <img src="@Url.Content("~/img/"+@item.ImgURL)" alt="" class="mw-100 mh-100">
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+
+                                            <span class="fw-bold">@Html.DisplayFor(modelItem => item.price) VNĐ</span>
+                                           
+                                    </div>
+                                         <div>
+                                                <span class="fw-bold">Số lượng: @Html.DisplayFor(modelItem => item.quantity)</span>
+                                                    </div>
+                                </div>
+
+                                @using (Html.BeginForm("AddProductToCart", "Home", new { idSanPham = @item.id }, FormMethod.Post))
+                                {
+                          <button type="submit" 
+                           class="btn btn-dark rounded-bottom-4 w-100 btn-sm">Thêm vào giỏ hàng</button>
+                                }
+                                    
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+

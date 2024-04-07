@@ -1,0 +1,68 @@
+﻿@model App_Data_ClassLib.Models.SanPham
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>SanPham</h4>
+<hr />
+<div class="row">
+
+      <div class="col-md-4">
+       
+       
+          </div>
+    <div class="col-md-4">
+
+        <form asp-action="EditSP">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+             <div class="form-group">
+                <label asp-for="id" disabled class="control-label"></label>
+                <input asp-for="id" disabled class="form-control" />
+                <span asp-validation-for="id" class="text-danger"></span>
+            </div> 
+            <div class="form-group">
+                <label asp-for="ProductName" class="control-label"></label>
+                <input asp-for="ProductName" class="form-control" />
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="quantity" class="control-label"></label>
+                <input asp-for="quantity" class="form-control" />
+                <span asp-validation-for="quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="price" class="control-label"></label>
+                <input asp-for="price" class="form-control" />
+                <span asp-validation-for="price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImgURL" class="control-label"></label>
+                <input asp-for="ImgURL" type="file" class="form-control" />
+                <span asp-validation-for="ImgURL" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="status" class="control-label">Trạng thái</label>
+
+          <span> <input asp-for="status" type="radio" name="MyRadioField" value="1" checked/> Hiệu lực</span>
+         <span class="ml-2"> <input asp-for="status" type="radio" name="MyRadioField" value="0"  />  Không hiệu lực</span>
+
+
+                <span asp-validation-for="status" class="text-danger"></span>
+            </div>
+            <div class="form-group mt-2">
+                <input type="submit" value="Edit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
