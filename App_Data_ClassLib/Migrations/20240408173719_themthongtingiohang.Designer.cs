@@ -4,6 +4,7 @@ using App_Data_ClassLib.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App_Data_ClassLib.Migrations
 {
     [DbContext(typeof(SD18302_NET104Context))]
-    partial class SD18302_NET104ContextModelSnapshot : ModelSnapshot
+    [Migration("20240408173719_themthongtingiohang")]
+    partial class themthongtingiohang
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,10 +46,7 @@ namespace App_Data_ClassLib.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("TotalMoney")
+                    b.Property<decimal>("TotalMoney")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<Guid>("UserId")

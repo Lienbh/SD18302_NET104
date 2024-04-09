@@ -23,16 +23,20 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
                              
                         </li>
-                        
-                        <li class="nav-item">
-                           
-                           <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Người dùng</a>
-                        </li>
-                        <li class="nav-item">
+                        @if (Context.Session.GetString("User")!=null)
+                        {
+                            <li class="nav-item">
 
-                           <a class="nav-link text-dark" asp-area="" asp-controller="SanPham" asp-action="Index">Sản phẩm</a>
-                        </li>
-                         <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Người dùng</a>
+                            </li>
+                            <li class="nav-item">
+
+                                <a class="nav-link text-dark" asp-area="" asp-controller="SanPham" asp-action="Index">Sản phẩm</a>
+
+
+                            </li>
+                        }
+                        <li class="nav-item">
 
                            <a class="nav-link text-dark" asp-area="" asp-controller="GioHang" asp-action="Index">Giỏ hàng</a>
                         </li>
@@ -52,9 +56,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted text-center">
         <div class="container">
-            &copy; 2024 - App_MVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - App_MVC - <a asp-area="" asp-controller="Home" >LangTieu</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

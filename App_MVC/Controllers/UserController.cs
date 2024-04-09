@@ -129,11 +129,13 @@ namespace App_MVC.Controllers
                 //Lưu trữ thông tin đăng nhập vào Session
                 HttpContext.Session.SetString("User", username);
                 HttpContext.Session.SetString("UserId", user.ID.ToString());
+               
                 return RedirectToAction("Index", "Home");
 
             }
             else
             {
+                
                 return Content("Đăng nhập thất bại");
             }
 

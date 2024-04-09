@@ -98,7 +98,9 @@
                                 </div>
                             </div>
                                <div class="btn btn-dark rounded-bottom-4 w-100 btn-sm">
-                                    @Html.ActionLink("Chỉnh Sửa", "Edit", new { id=item.id })
+                                    <span>@Html.ActionLink("Chỉnh Sửa", "Edit", new { id = item.id })</span>
+                                    <span class="mx-lg-2">@Html.ActionLink("Xóa", "Delete", new { id = item.id })</span>
+                                    
                                </div>
                               
                                

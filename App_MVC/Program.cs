@@ -35,7 +35,7 @@
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=User}/{action=Login}");// Set route mặc định
+                pattern: "{controller=Home}/{action=Index}");// Set route mặc định
 
             app.Run();
         }

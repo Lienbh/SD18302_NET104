@@ -1,42 +1,134 @@
-﻿@model IEnumerable<GioHangCTDTO>
+﻿@model App_MVC.Models.GioHangDTO
 
 @{
-    ViewData["Title"] = "View";
+ViewData["Title"] = "View";
 }
 
 <h1>Giỏ Hàng</h1>
 
- <div class="container-fluid">
-                <div class="row">
-        @foreach (var item in Model)
-        {
-                            <div class="col-4">
-                                <div class="border mb-4">
-                                    <div class="p-2">
-                                            <h5 class="text-center">  @Html.DisplayFor(modelItem => item.ProductName)</h5>
-                                        <br>
-                                        <div class="bg-light d-flex justify-content-center align-items-center"
-                                    style="height: 300px;">
-                                                     
-                                        </div>
-                                        <div class="d-flex justify-content-center">
+<div class="container-fluid">
 
-                                                <span class="fw-bold">@Html.DisplayFor(modelItem => item.Price) VNĐ</span>
+    <section class="contact_section layout_padding">
+        <section class=" " style="background-color: #eee;">
+            <div class="container h-100 py-5">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col">
+                        <div class="card shopping-cart" style="border-radius: 15px;">
+                            <div class="card-body text-black">
 
+                                <div class="row">
+                                    <div class="col-lg-6 px-5 py-4">
+
+                                        <h3 class="mb-5 pt-2 text-center fw-bold text-uppercase">Tất cả sản phẩm
+                                        </h3>
+                                        @foreach (var item in Model.GioHangChiTiet)
+                                        {
+                                        <div class="d-flex align-items-center mb-5">
+                                            <div class="flex-shrink-0">
+                                                <img src="~/img/@item.ImgURL" class="img-fluid" style="width: 150px;"
+                                                    alt="Generic placeholder image">
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <a href="#!" class="float-end text-black"><i
+                                                        class="fas fa-times"></i></a>
+                                                <h5 class="text-primary">@item.ProductName</h5>
+                                                <div class="d-flex align-items-center">
+                                                    <p class="fw-bold mb-0 me-5 pe-3">@item.Price</p>
+                                                    <div class="def-number-input number-input safari_only">
+                                                        @using (Html.BeginForm("GiamSoLuong", "GioHang", new {
+                                                        idSanPham=@item.ProductId,soluong=@item.Quantity,giohang=Model},
+                                                        FormMethod.Post))
+                                                        {
+                                                        <button type="submit" class="minus"></button>
+
+                                                        }
+                                                        <input class="quantity fw-bold text-black" min="0"
+                                                            name="quantity" disabled="true" value="@item.Quantity"
+                                                            type="number">
+
+                                                        @using (Html.BeginForm("TangSoLuong", "GioHang", new {
+                                                        idSanPham=@item.ProductId,soluong=@item.Quantity,giohang=Model},
+                                                        FormMethod.Post))
+                                                        {
+                                                        <button type="submit" class="plus"></button>
+
+                                                        }
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                             <div>
-                                                    <span class="fw-bold">Số lượng: @Html.DisplayFor(modelItem => item.Quantity)</span>
-                                                        </div>
+                                        }
+
+
+
+                                        <hr class="mb-4" style="height: 2px; background-color: #1266f1; opacity: 1;">
+
+                                        <div class="d-flex justify-content-between p-2 mb-2"
+                                            style="background-color: #e1f5fe;">
+                                            <h5 class="fw-bold mb-0">Tổng Tiền:</h5>
+                                            <h5 class="fw-bold mb-0">@ViewData["TongTien"]</h5>
+                                        </div>
+
                                     </div>
+                                    <div class="col-lg-6 px-5 py-4">
 
-                                 @using (Html.BeginForm("ThanhToan", "GioHang", new { Id = @item.Id }, FormMethod.Post))
-                                {
-                                     <button type="submit" 
-                                    class="btn btn-dark rounded-bottom-4 w-100 btn-sm">Thanh toán</button>
-                               }
+                                        <h3 class="mb-5 pt-2 text-center fw-bold text-uppercase">Thanh toán</h3>
 
+                                        <form class="mb-5" asp-action="ThanhToan" enctype="multipart/form-data">
+
+                                            <div class="form-outline mb-5">
+                                                <label class="form-label" for="typeText">Tên khách hàng</label>
+                                                <input type="text" class="form-control form-control-lg" siez="17"
+                                                    value="" asp-for="FullName" minlength="5" maxlength="50" />
+                                            </div>
+
+                                            <div class="form-outline mb-5">
+                                                <label class="form-label" for="typeName">Email</label>
+                                                <input type="email" class="form-control form-control-lg" siez="17"
+                                                    value="" asp-for="Email" minlength="10" maxlength="255" />
+                                            </div>
+
+                                            <div class="form-outline mb-5">
+                                                <label class="form-label" for="typeName">Số điện thoại</label>
+                                                <input type="text" class="form-control form-control-lg" siez="17"
+                                                    value="" asp-for="PhoneNumber" minlength="8" maxlength="11" />
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-12 mb-5">
+                                                    <div class="form-outline">
+                                                        <label class="form-label" for="typeExp1">Địa chỉ giao
+                                                            hàng</label>
+                                                        <input type="text" class="form-control form-control-lg"
+                                                            siez="17" value="" asp-for="Address" minlength="10"
+                                                            maxlength="255" />
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                          @if (ViewData["AnBtnThanhToan"]  == "false")
+                                            {
+                                                <button type="submit"
+                                                        class="btn w-100 btn-sm btn-primary btn-block btn-lg">Thanh
+                                                    toán</button>
+                                            }
+                                           
+                                        </form>
+
+                                    </div>
                                 </div>
+
                             </div>
-        }
+                        </div>
+                    </div>
                 </div>
             </div>
+        </section>
+
+
+    </section>
+
+</div>
