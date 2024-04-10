@@ -10,7 +10,7 @@
             builder.Services.AddControllersWithViews();
             builder.Services.AddSession(option =>
             {
-                option.IdleTimeout = TimeSpan.FromSeconds(15); // Khai báo khoảng thời gian để 
+                option.IdleTimeout = TimeSpan.FromSeconds(150000000); // Khai báo khoảng thời gian để 
                 // Session timeout 
             }); // Khai bái dịch vụ cho Session
             // 1 phiên làm việc cho tới khi timeout sẽ được tính từ khi có request cuối cùng cho tới

@@ -48,8 +48,15 @@
         </dd>
     </dl>
     
-    <form asp-action="ConfirmDelete">
-        <input type="submit" value="Xóa sản phẩm" class="btn btn-danger" /> |
+   
+        @using (Html.BeginForm("ConfirmDelete", "SanPham", new { idSanPham =Model.id }, FormMethod.Post))
+        {
+            <button type="submit"
+                    class="btn btn-danger">
+                Xóa sản phẩm
+            </button>
+        }
+       
         <a asp-action="Index">Back to List</a>
-    </form>
+
 </div>

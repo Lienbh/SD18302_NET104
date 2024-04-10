@@ -3,6 +3,7 @@ using App_Data_ClassLib.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.Intrinsics.Arm;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace App_MVC.Controllers
 {
@@ -37,12 +38,13 @@ namespace App_MVC.Controllers
             if (_context.SanPhams.Any(p => p.ProductName == sp.ProductName))
             {
                 ModelState.AddModelError("ProductName", "Dữ liệu đã tồn tại");
-                var sessionUser1 = HttpContext.Session.GetString("User");
-                var sessionUserId1 = HttpContext.Session.GetString("UserId");
+                var sessionUser = HttpContext.Session.GetString("User");
+                var sessionUserId = HttpContext.Session.GetString("UserId");
+                HttpContext.Session.SetString("User", sessionUser);
+                HttpContext.Session.SetString("UserId", sessionUserId);
 
-                HttpContext.Session.SetString("UserId", sessionUserId1);
-                HttpContext.Session.SetString("User", sessionUser1);
-                return View("Create", sp);
+
+                return RedirectToAction("Create", sp);
             }
             else
             {
@@ -61,12 +63,12 @@ namespace App_MVC.Controllers
                 _reps.CreateObj(sp);
 
             }
+            var sessionUser1 = HttpContext.Session.GetString("User");
+            var sessionUserId1 = HttpContext.Session.GetString("UserId");
+            HttpContext.Session.SetString("User", sessionUser1);
+            HttpContext.Session.SetString("UserId", sessionUserId1);
             var allSP = _reps.GetAll(); ;
-            var sessionUser = HttpContext.Session.GetString("User");
-            var sessionUserId = HttpContext.Session.GetString("UserId");
-
-            HttpContext.Session.SetString("UserId", sessionUserId);
-            HttpContext.Session.SetString("User", sessionUser);
+      
             return RedirectToAction("Index", allSP);
         
         }
@@ -84,8 +86,12 @@ namespace App_MVC.Controllers
 
                 if (_context.SanPhams.Any(p => p.ProductName == sp.ProductName && p.id != sp.id))
                 {
+                    var sessionUser1 = HttpContext.Session.GetString("User");
+                    var sessionUserId1 = HttpContext.Session.GetString("UserId");
+                    HttpContext.Session.SetString("User", sessionUser1);
+                    HttpContext.Session.SetString("UserId", sessionUserId1);
                     ModelState.AddModelError("ProductName", "Dữ liệu đã tồn tại");
-                    return View("Edit", sp);
+                    return RedirectToAction("Edit", sp);
                 }
                 else
                 {
@@ -100,31 +106,45 @@ namespace App_MVC.Controllers
                         {
                             photo.CopyTo(stream);
                         }
-                        sp.ImgURL = photo.FileName;
+                       
+                        var spUpdate = _context.SanPhams.AsNoTracking().FirstOrDefault(c => c.id == sp.id);
+                       
+                        spUpdate.price = sp.price;
+                        spUpdate.ImgURL = photo.FileName;
+                        spUpdate.status = sp.status;
+                        spUpdate.ProductName = sp.ProductName;
+                        _context.SanPhams.Update(spUpdate);
+                        _context.SaveChanges();
                     }
                     else
                     {
-                        var spUpdate = _reps.GetByID(sp.id);
+                        /// AsNoTracking giúp bỏ theo dõibanrng khi update
+                        var spUpdate = _context.SanPhams.AsNoTracking().FirstOrDefault(c => c.id == sp.id);
                         sp.ImgURL = spUpdate.ImgURL;
+                        spUpdate.price = sp.price;
+                        spUpdate.ImgURL = sp.ImgURL;
+                        spUpdate.status = sp.status;
+                        spUpdate.ProductName = sp.ProductName;
+                        _context.SanPhams.Update(spUpdate);
+                        _context.SaveChanges();
                     }
-                    _reps.UpdateObj(sp);
 
+                   
                 }
+
                 var sessionUser = HttpContext.Session.GetString("User");
                 var sessionUserId = HttpContext.Session.GetString("UserId");
-
-                HttpContext.Session.SetString("UserId", sessionUserId);
                 HttpContext.Session.SetString("User", sessionUser);
-                var allSP= _reps.GetAll(); ;
+                HttpContext.Session.SetString("UserId", sessionUserId);
+
+                var allSP= _reps.GetAll().Where(c=>c.status!=0); 
                 return RedirectToAction("Index", allSP);
             }
             catch
             {
-                var sessionUser = HttpContext.Session.GetString("User");
-                var sessionUserId = HttpContext.Session.GetString("UserId");
+                
 
-                HttpContext.Session.SetString("UserId", sessionUserId);
-                HttpContext.Session.SetString("User", sessionUser);
+           
                 var allSP = _reps.GetAll(); ;
                 return RedirectToAction("Index", allSP);
             }
@@ -133,25 +153,23 @@ namespace App_MVC.Controllers
         public IActionResult Delete(Guid id)
         {
             var spDelete = _reps.GetByID(id);
-            var sessionUser = HttpContext.Session.GetString("User");
-            var sessionUserId = HttpContext.Session.GetString("UserId");
-
-            HttpContext.Session.SetString("UserId", sessionUserId);
-            HttpContext.Session.SetString("User", sessionUser);
+            
             return View(spDelete);
         }
         //Xóa
-        public IActionResult ConfirmDelete(Guid id)
+        public IActionResult ConfirmDelete(Guid idSanPham)
         {
-              var lstGioHang=  _context.gioHangCTs.Where(c=>c.ProductId== id).ToList();
+              var lstGioHang=  _context.gioHangCTs.Where(c=>c.ProductId== idSanPham).ToList();
             _context.gioHangCTs.RemoveRange(lstGioHang);
-            var spDelete = _reps.DeleteObj(id);
-            var allSP = _reps.GetAll(); ;
+            _context.SaveChanges();
+            var spDelete = _reps.DeleteObj(idSanPham);
+            var allSP = _reps.GetAll().Where(c => c.status != 0);
+
             var sessionUser = HttpContext.Session.GetString("User");
             var sessionUserId = HttpContext.Session.GetString("UserId");
-
-            HttpContext.Session.SetString("UserId", sessionUserId);
             HttpContext.Session.SetString("User", sessionUser);
+            HttpContext.Session.SetString("UserId", sessionUserId);
+
             return RedirectToAction("Index", allSP);
          
         }

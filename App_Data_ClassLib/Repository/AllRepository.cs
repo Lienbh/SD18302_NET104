@@ -92,7 +92,7 @@ namespace App_Data_ClassLib.Repository
                 context.SaveChanges(); //Lưu lại
                 return true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 return false;
